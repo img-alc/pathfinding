@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+  <title>Path Finding Visualization</title>
+  <link rel="stylesheet" href="css/pf.css" />
+  <script src="js/canvas.js"></script>
+  <script src="js/cell.js"></script> 
+  <script src="js/maze.js"></script>
+</head>
+<body>
+  <div id="canvas">
+  <canvas id="VisualizationCanvas"> Your browser doesn't support Canvas</canvas>
+  </div>
+  <div>
+	<button type="button" onclick="(function(){
+    var maze = new Maze('VisualizationCanvas');
+    maze.generateMaze();
+  }());">Generate New Maze</button>
+   	<select name="PFAlgo">    
+    	<option value="Dijkstra">Dijkstra</option>
+        <option value="aStar">a*</option>
+    </select>
+   	<button type="button" onclick="alert('Not Implemented Yet')">Visualize</button>
+    
+  </div>
+  <script type="text/javascript">
+    window.onload = initCanvas('VisualizationCanvas');
+  </script>
+</body>
+</html>
