@@ -3,6 +3,10 @@ function Cell (col, row, isLeftWall, isTopWall, isRigthWall, isBottomWall) {
     this.row = row;
     this.isLeftWall = isLeftWall;
     this.isTopWall = isTopWall;
-    this.isRigthWall = isRigthWall;
+    this.isRightWall = isRigthWall;
     this.isBottomWall = isBottomWall;
+}
+
+Cell.prototype.isOpen = function(){
+    return this.isLeftWall == false || this.isTopWall == false || this.isRigthWall == false || this.isBottomWall == false;
 }
