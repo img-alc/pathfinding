@@ -6,6 +6,8 @@ function Maze(canvasId) {
 	this.cells = [];
 	this.cellWidth = 10;//Math.floor(this.width/50);
 	this.cellHeight = 10;//Math.floor(this.height/50);
+	this.start;
+	this.end;
 }
 
 Maze.prototype.generateMaze = function() {
@@ -18,7 +20,10 @@ Maze.prototype.generateMaze = function() {
 	}
 	this.openWalls();
 	this.drawMaze();
-	this.drawPointToFind();
+	this.start = this.cells[0];
+	this.end = this.getEndOfMaze();
+	this.fillCell(this.end, "blue");
+	this.fillCell(this.start, "grey");
 }
 
 Maze.prototype.openWalls = function() {
@@ -133,13 +138,14 @@ Maze.prototype.drawMaze = function() {
 	});
 }
 
-Maze.prototype.drawPointToFind = function() {	
-	let randomIndex = Math.floor(Math.random() * ((this.cells.length - 1) - (this.cells.length/2)) + this.cells.length/2);
-	console.log(randomIndex);
-	let randomCell = this.cells[randomIndex];
+Maze.prototype.getEndOfMaze = function() {
+	return this.cells[Math.floor(Math.random() * ((this.cells.length - 1) - (this.cells.length/2)) + this.cells.length/2)];
+}
+
+Maze.prototype.fillCell = function(cell, color) {	
 	this.ctx.beginPath();
-	this.ctx.rect(randomCell.row, randomCell.col, this.cellWidth, this.cellHeight);
-	this.ctx.fillStyle = "blue";
+	this.ctx.rect(cell.row, cell.col, this.cellWidth, this.cellHeight);
+	this.ctx.fillStyle = color;
 	this.ctx.fill();
 }
 
