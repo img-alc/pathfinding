@@ -149,4 +149,22 @@ Maze.prototype.fillCell = function(cell, color) {
 	this.ctx.fill();
 }
 
+Maze.prototype.getMazeCells = function() {
+	return this.cells;
+}
 
+Maze.prototype.getStartCell = function() {
+	return this.start;
+}
+
+Maze.prototype.getEndCell = function() {
+	return this.end;
+}
+
+Maze.prototype.getNumberOfMazeColumns = function() {
+	return this.width/this.cellWidth;
+}
+
+Maze.prototype.getNumberOfMazeRows = function() {
+	return this.height/this.cellHeight;
+}
