@@ -14,3 +14,15 @@ Cell.prototype.isOpen = function() {
 Cell.prototype.isBottomClosed = function() {
     return this.isBottomWall;
 }
+
+Cell.prototype.isRightClosed = function() {
+    return this.isRightWall;
+}
+
+Cell.prototype.isUpperClosed = function() {
+    return this.isTopWall;
+}
+
+Cell.prototype.isLeftClosed = function() {
+    return this.isLeftWall;
+}
