@@ -144,9 +144,8 @@ Maze.prototype.getEndOfMaze = function() {
 
 Maze.prototype.fillCell = function(cell, color) {	
 	this.ctx.beginPath();
-	this.ctx.rect(cell.row, cell.col, this.cellWidth, this.cellHeight);
 	this.ctx.fillStyle = color;
-	this.ctx.fill();
+	this.ctx.fillRect(cell.col + 2, cell.row + 2, this.cellHeight - 4, this.cellWidth - 4);
 }
 
 Maze.prototype.getMazeCells = function() {

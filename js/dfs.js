@@ -20,43 +20,56 @@ DFS.prototype.findPath = function() {
             mazeSolved = true;
             morePathsToLookup = false;
         //can look by moving up
-        } else if(this.getUpperIndex(currIndex) !== -1) {
+        } else if(this.getUpperIndex(currIndex) !== -1 && !this.nodes[currIndex].upNodeVisited) {
             this.maze.fillCell(this.mazeCells[currIndex], "yellow");
             this.nodes[currIndex].markUpperNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
-            currIndex = this.getUpperIndex(currIndex);           
+            currIndex = this.getUpperIndex(currIndex);
+            this.nodes[currIndex].markBottomNodeVisited();           
 
         //can look by moving right
-        } else if(this.getRightIndex(currIndex) !== -1) {
+        } else if(this.getRightIndex(currIndex) !== -1 && !this.nodes[currIndex].rightNodeVisited) {
             this.maze.fillCell(this.mazeCells[currIndex], "yellow");
             this.nodes[currIndex].markRightNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
-            currIndex = this.getRightIndex(currIndex) ;           
-
+            currIndex = this.getRightIndex(currIndex);
+            this.nodes[currIndex].markLeftNodeVisited();           
+        
         //can look by moving bottom
-        } else if(this.getBottomIndex(currIndex) !== -1) {
+        } else if(this.getBottomIndex(currIndex) !== -1 && !this.nodes[currIndex].bottomNodeVisited) {
             this.maze.fillCell(this.mazeCells[currIndex], "yellow");
             this.nodes[currIndex].markBottomNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
-            currIndex = this.getBottomIndex(currIndex);            
+            currIndex = this.getBottomIndex(currIndex); 
+            this.nodes[currIndex].markUpperNodeVisited();           
 
         //can look by moving left        
-        } else if(this.getLeftIndex(currIndex) !== -1) {
+        } else if(this.getLeftIndex(currIndex) !== -1 && !this.nodes[currIndex].leftNodeVisited) {
             this.maze.fillCell(this.mazeCells[currIndex], "yellow");
             this.nodes[currIndex].markLeftNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
-            currIndex = this.getLeftIndex(currIndex);            
+            currIndex = this.getLeftIndex(currIndex);
+            this.nodes[currIndex].markRightNodeVisited();            
 
         //dead cell reached
         } else if(backtrackStack.length > 0) {
-        this.maze.fillCell(this.mazeCells[currIndex], "gray");
-        currIndex = backtrackStack.pop();
+        this.maze.fillCell(this.mazeCells[currIndex], "grey");
+        let backtrackNode = backtrackStack.pop();
+        currIndex = this.nodes.indexOf(backtrackNode);
         
         //Unable to solve the maze
         } else {
+            this.maze.fillCell(this.mazeCells[currIndex], "yellow");
             morePathsToLookup = false
         }
     }
+
+    if(mazeSolved) {
+        alert("Maze solved");
+    } else {
+        alert("Impossible to solve maze");
+    }
+    
 }
 
 DFS.prototype.getUpperIndex = function(currIndex) {
