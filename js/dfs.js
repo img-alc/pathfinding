@@ -53,16 +53,16 @@ DFS.prototype.findPath = function() {
 
         //dead cell reached
         } else if(backtrackStack.length > 0) {
-        this.maze.fillCell(this.mazeCells[currIndex], "grey");
-        let backtrackNode = backtrackStack.pop();
-        currIndex = this.nodes.indexOf(backtrackNode);
+            this.maze.fillCell(this.mazeCells[currIndex], "grey");
+            let backtrackNode = backtrackStack.pop();
+            currIndex = this.nodes.indexOf(backtrackNode);
         
         //Unable to solve the maze
         } else {
             this.maze.fillCell(this.mazeCells[currIndex], "yellow");
-            morePathsToLookup = false
+            morePathsToLookup = false;
         }
-    }
+    }   
 
     if(mazeSolved) {
         alert("Maze solved");
@@ -85,6 +85,9 @@ DFS.prototype.getUpperIndex = function(currIndex) {
 
 DFS.prototype.getRightIndex = function(currIndex) {
     let nodeToVisitIndexInArray = currIndex + 1;
+    if(nodeToVisitIndexInArray >= this.mazeCells.length) {
+        return -1;
+    }
     let numberOfColumns = this.maze.getNumberOfMazeColumns();
     let currNodeColumn = currIndex % numberOfColumns;
     let nodeToVisitColumn = nodeToVisitIndexInArray % numberOfColumns;
@@ -112,6 +115,9 @@ DFS.prototype.getBottomIndex = function(currIndex) {
 
 DFS.prototype.getLeftIndex = function(currIndex) {
     let nodeToVisitIndexInArray = currIndex - 1;
+    if(nodeToVisitIndexInArray < 0) {
+        return -1;
+    }
     let numberOfColumns = this.maze.getNumberOfMazeColumns();
     let currNodeColumn = currIndex % numberOfColumns;
     let nodeToVisitColumn = nodeToVisitIndexInArray % numberOfColumns;
