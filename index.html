@@ -6,6 +6,7 @@
   <script src="js/cell.js"></script> 
   <script src="js/maze.js"></script>
   <script src="js/dfs.js"></script>
+  <script src="js/bfs.js"></script>
 </head>
 <body>
   <div id="canvas">
@@ -41,6 +42,9 @@
       if(selectedOption === "DFS") {
         var dfs = new DFS(maze);
         dfs.findPath();
+      } else if(selectedOption === "BFS") {
+        var bfs = new BFS(maze);
+        bfs.findPath();
       } else {
         alert("Not implemented yet");
       }
