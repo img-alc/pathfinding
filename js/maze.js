@@ -23,7 +23,7 @@ Maze.prototype.generateMaze = function() {
 	this.start = this.cells[0];
 	this.end = this.getEndOfMaze();
 	this.fillCell(this.end, "blue");
-	this.fillCell(this.start, "grey");
+	this.fillCell(this.start, "red");
 }
 
 Maze.prototype.openWalls = function() {
@@ -140,6 +140,14 @@ Maze.prototype.drawMaze = function() {
 
 Maze.prototype.getEndOfMaze = function() {
 	return this.cells[Math.floor(Math.random() * ((this.cells.length - 1) - (this.cells.length/2)) + this.cells.length/2)];
+}
+
+Maze.prototype.clearPath = function() {
+	this.cells.forEach(cell => {
+		if(cell !== this.start && cell !== this.end) {
+			this.fillCell(cell, 'white');
+		}		
+	});
 }
 
 Maze.prototype.fillCell = function(cell, color) {	

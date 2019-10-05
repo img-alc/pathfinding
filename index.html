@@ -40,9 +40,11 @@
     if (typeof maze !== 'undefined') {
       let selectedOption = document.getElementById("solvingOptionsCB").value;
       if(selectedOption === "DFS") {
+        maze.clearPath();
         var dfs = new DFS(maze);
         dfs.findPath();
       } else if(selectedOption === "BFS") {
+        maze.clearPath();
         var bfs = new BFS(maze);
         bfs.findPath();
       } else {

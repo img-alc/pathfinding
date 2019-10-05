@@ -3,12 +3,13 @@ function DFS(maze) {
     this.nodes = [];
     this.mazeCells = maze.getMazeCells();
     for(let i = 0; i < this.mazeCells.length; i++) {
-        this.nodes.push(new Node());
+        this.nodes.push(new NodeDFS());
     }
 }
 
 DFS.prototype.findPath = function() {
-    let mazeEndCell = this.maze.getEndCell();   
+    let mazeEndCell = this.maze.getEndCell();
+    let mazeStartCell = this.maze.getStartCell();   
     let mazeSolved = false;
     let morePathsToLookup = true;
     let currIndex = 0;
@@ -21,7 +22,9 @@ DFS.prototype.findPath = function() {
             morePathsToLookup = false;
         //can look by moving up
         } else if(this.getUpperIndex(currIndex) !== -1 && !this.nodes[currIndex].upNodeVisited) {
-            this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            if(this.mazeCells[currIndex] !== mazeStartCell) {
+                this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            }            
             this.nodes[currIndex].markUpperNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
             currIndex = this.getUpperIndex(currIndex);
@@ -29,7 +32,9 @@ DFS.prototype.findPath = function() {
 
         //can look by moving right
         } else if(this.getRightIndex(currIndex) !== -1 && !this.nodes[currIndex].rightNodeVisited) {
-            this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            if(this.mazeCells[currIndex] !== mazeStartCell) {
+                this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            }  
             this.nodes[currIndex].markRightNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
             currIndex = this.getRightIndex(currIndex);
@@ -37,7 +42,9 @@ DFS.prototype.findPath = function() {
         
         //can look by moving bottom
         } else if(this.getBottomIndex(currIndex) !== -1 && !this.nodes[currIndex].bottomNodeVisited) {
-            this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            if(this.mazeCells[currIndex] !== mazeStartCell) {
+                this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            }  
             this.nodes[currIndex].markBottomNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
             currIndex = this.getBottomIndex(currIndex); 
@@ -45,7 +52,9 @@ DFS.prototype.findPath = function() {
 
         //can look by moving left        
         } else if(this.getLeftIndex(currIndex) !== -1 && !this.nodes[currIndex].leftNodeVisited) {
-            this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            if(this.mazeCells[currIndex] !== mazeStartCell) {
+                this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            }  
             this.nodes[currIndex].markLeftNodeVisited();
             backtrackStack.push(this.nodes[currIndex]);
             currIndex = this.getLeftIndex(currIndex);
@@ -53,13 +62,17 @@ DFS.prototype.findPath = function() {
 
         //dead cell reached
         } else if(backtrackStack.length > 0) {
-            this.maze.fillCell(this.mazeCells[currIndex], "grey");
+            if(this.mazeCells[currIndex] !== mazeStartCell) {
+                this.maze.fillCell(this.mazeCells[currIndex], "grey");
+            }  
             let backtrackNode = backtrackStack.pop();
             currIndex = this.nodes.indexOf(backtrackNode);
         
         //Unable to solve the maze
         } else {
-            this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            if(this.mazeCells[currIndex] !== mazeStartCell) {
+                this.maze.fillCell(this.mazeCells[currIndex], "yellow");
+            }  
             morePathsToLookup = false;
         }
     }   
@@ -131,25 +144,25 @@ DFS.prototype.getLeftIndex = function(currIndex) {
 }
 
 // Node object
-function Node() {
+function NodeDFS() {
     this.upNodeVisited = false;
     this.rightNodeVisited = false;
     this.bottomNodeVisited = false;
     this.leftNodeVisited = false;
 }
 
-Node.prototype.markUpperNodeVisited = function() {
+NodeDFS.prototype.markUpperNodeVisited = function() {
     this.upNodeVisited = true;
 }
 
-Node.prototype.markRightNodeVisited = function() {
+NodeDFS.prototype.markRightNodeVisited = function() {
     this.rightNodeVisited = true;
 }
 
-Node.prototype.markBottomNodeVisited = function() {
+NodeDFS.prototype.markBottomNodeVisited = function() {
     this.bottomNodeVisited = true;
 }
 
-Node.prototype.markLeftNodeVisited = function() {
+NodeDFS.prototype.markLeftNodeVisited = function() {
     this.leftNodeVisited = true;
 }
