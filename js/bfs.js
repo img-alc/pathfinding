@@ -26,7 +26,7 @@ BFS.prototype.findPath = function() {
         } else {
             let unvisitedNeighbors = this.getUnvisitedNeighborsIndexes(currNodeIndex);
             if(unvisitedNeighbors.length === 0 && queueNodesToVisit.length > 0) {
-                currNodeIndex = queueNodesToVisit.pop();                
+                currNodeIndex = queueNodesToVisit.shift();                
             } else if(unvisitedNeighbors.length === 0 && queueNodesToVisit.length === 0) {
                 hasMoreNodesToVisit = false;
             } else {
@@ -47,7 +47,7 @@ BFS.prototype.findPath = function() {
                 this.maze.fillCell(this.mazeCells[visited], 'yellow');
             }            
         });
-        alert("Maze solved: yellow dots represent the path, grey dots show nodes that were visited.");
+        alert("Maze solved: yellow dots represent visited nodes, grey dots show nodes that were queued for visit.");
     } else {
         alert("Impossible to solve maze");
     }
@@ -122,7 +122,7 @@ BFS.prototype.getBottomIndex = function(currNodeIndex) {
     let numberOfColumns = this.maze.getNumberOfMazeColumns();
     let nodeToVisitIndexInArray = currNodeIndex + numberOfColumns; 
     let numberOfRows = this.maze.getNumberOfMazeRows();
-    if(nodeToVisitIndexInArray/numberOfColumns > numberOfRows) {
+    if(nodeToVisitIndexInArray/numberOfColumns >= numberOfRows) {
          return -1;
     }
     if(this.mazeCells[nodeToVisitIndexInArray].isUpperClosed()) {

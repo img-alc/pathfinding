@@ -2,6 +2,7 @@ function DFS(maze) {
     this.maze = maze;
     this.nodes = [];
     this.mazeCells = maze.getMazeCells();
+
     for(let i = 0; i < this.mazeCells.length; i++) {
         this.nodes.push(new NodeDFS());
     }
@@ -117,7 +118,7 @@ DFS.prototype.getBottomIndex = function(currIndex) {
     let numberOfColumns = this.maze.getNumberOfMazeColumns();
     let nodeToVisitIndexInArray = currIndex + numberOfColumns; 
     let numberOfRows = this.maze.getNumberOfMazeRows();
-    if(nodeToVisitIndexInArray/numberOfColumns > numberOfRows) {
+    if(nodeToVisitIndexInArray/numberOfColumns >= numberOfRows) {
          return -1;
      }
      if(this.mazeCells[nodeToVisitIndexInArray].isUpperClosed()) {
