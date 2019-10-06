@@ -52,7 +52,6 @@ BFS.prototype.findPath = function() {
     }
 }
 
-//TODO: Implement logic to get unvisited nodes
 BFS.prototype.getUnvisitedNeighborsIndexes = function(currNodeIndex) {
     let unvisitedNeighbors = [];
 
