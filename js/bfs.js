@@ -11,43 +11,42 @@ BFS.prototype.findPath = function() {
     let isMazeSolved = false;
     let hasMoreNodesToVisit = true;
     let queueNodesToVisit = [];    
-    let stackNodesVisited = [];
     let currNodeIndex = 0;
     this.nodes[currNodeIndex].markNodeAsVisited();
-    let mazeEndCell = this.maze.getEndCell();  
-    let mazeStartCell = this.maze.getStartCell(); 
+    let mazeEndCell = this.maze.getEndCell();
+    let endCellIndex;  
+    queueNodesToVisit.push(currNodeIndex);
 
-    while(hasMoreNodesToVisit) {
-        this.nodes[currNodeIndex].markNodeAsVisited();
-        stackNodesVisited.push(currNodeIndex); 
-        if(this.mazeCells[currNodeIndex] === mazeEndCell) {
-            hasMoreNodesToVisit = false;
-            isMazeSolved = true;
-        } else {
-            let unvisitedNeighbors = this.getUnvisitedNeighborsIndexes(currNodeIndex);
-            if(unvisitedNeighbors.length === 0 && queueNodesToVisit.length > 0) {
-                currNodeIndex = queueNodesToVisit.shift();                
-            } else if(unvisitedNeighbors.length === 0 && queueNodesToVisit.length === 0) {
+    while(queueNodesToVisit.length > 0 || hasMoreNodesToVisit === true) {
+        currNodeIndex = queueNodesToVisit.shift();     
+        let unvisitedNeighbors = this.getUnvisitedNeighborsIndexes(currNodeIndex);
+        unvisitedNeighbors.forEach(nodeIndex => {
+            this.nodes[nodeIndex].markNodeAsVisited();
+            this.nodes[nodeIndex].setVisitedFromIndex(currNodeIndex);
+            if(this.mazeCells[nodeIndex] === mazeEndCell) {
                 hasMoreNodesToVisit = false;
+                isMazeSolved = true;
+                endCellIndex = nodeIndex;
             } else {
-                unvisitedNeighbors.forEach(neighbor => {
-                    queueNodesToVisit.push(neighbor);
-                    if(this.mazeCells[neighbor] !== mazeEndCell) {
-                        this.maze.fillCell(this.mazeCells[neighbor], 'grey');
-                    }                    
-                });
-                currNodeIndex = queueNodesToVisit.shift();          
+                queueNodesToVisit.push(nodeIndex);
+                this.maze.fillCell(this.mazeCells[nodeIndex], 'grey');
             }
-        }        
+          });
     }
 
     if(isMazeSolved) {
-        stackNodesVisited.forEach(visited => {
-            if(this.mazeCells[visited] !== mazeStartCell && this.mazeCells[visited] !== mazeEndCell){
-                this.maze.fillCell(this.mazeCells[visited], 'yellow');
-            }            
-        });
-        alert("Maze solved: yellow dots represent visited nodes, grey dots show nodes that were queued for visit.");
+        let isDrawingShortestPath = true;
+        let backtrackIndex = this.nodes[endCellIndex].visitedFromIndex;
+        let mazeStartCell = this.maze.getStartCell(); 
+        while(isDrawingShortestPath){
+            if(this.mazeCells[backtrackIndex] === mazeStartCell) {
+                isDrawingShortestPath = false;
+            } else {
+                this.maze.fillCell(this.mazeCells[backtrackIndex], 'yellow');
+                backtrackIndex = this.nodes[backtrackIndex].visitedFromIndex;
+            }
+        }
+        alert("Maze solved: yellow dots represent the shortest path. Grey dots represent visited nodes.");
     } else {
         alert("Impossible to solve maze");
     }
@@ -159,6 +158,7 @@ BFS.prototype.getLeftIndex = function(currNodeIndex) {
 // Node object
 function NodeBFS() {
     this.isVisited = false;
+    this.visitedFromIndex;
 }
 
 NodeBFS.prototype.isVisited = function() {
@@ -167,4 +167,12 @@ NodeBFS.prototype.isVisited = function() {
 
 NodeBFS.prototype.markNodeAsVisited = function() {
     this.isVisited = true;
+}
+
+NodeBFS.prototype.setVisitedFromIndex = function(index) {
+    this.visitedFromIndex = index;
+}
+
+Node.prototype.getVisitedFromIndex = function() {
+    return this.visitedFromIndex;
 }

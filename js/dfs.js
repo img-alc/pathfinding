@@ -79,7 +79,7 @@ DFS.prototype.findPath = function() {
     }   
 
     if(mazeSolved) {
-        alert("Maze solved: yellow dots represent the path, grey dots show nodes that were visited.");
+        alert("Maze solved: yellow dots represent the path. Grey dots represent visited nodes.");
     } else {
         alert("Impossible to solve maze");
     }
